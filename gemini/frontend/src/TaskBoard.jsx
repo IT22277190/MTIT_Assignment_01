@@ -15,7 +15,7 @@ const TaskBoard = () => {
 
     const fetchTasks = async () => {
         try {
-            const response = await fetch('http://localhost:8000/tasks');
+            const response = await fetch('http://localhost:8001/tasks');
             if (!response.ok) throw new Error('Failed to fetch tasks');
             const data = await response.json();
             setTasks(data);
@@ -29,7 +29,7 @@ const TaskBoard = () => {
     const handleDelete = async (taskId) => {
         if (!window.confirm("Delete this task?")) return;
         try {
-            const response = await fetch(`http://localhost:8000/tasks/${taskId}`, { method: 'DELETE' });
+            const response = await fetch(`http://localhost:8001/tasks/${taskId}`, { method: 'DELETE' });
             if (response.ok) setTasks(tasks.filter(task => task.id !== taskId));
         } catch (error) {
             console.error('Error deleting task:', error);
@@ -39,7 +39,7 @@ const TaskBoard = () => {
     const handleToggleComplete = async (task) => {
         const updatedTask = { ...task, is_completed: !task.is_completed };
         try {
-            const response = await fetch(`http://localhost:8000/tasks/${task.id}`, {
+            const response = await fetch(`http://localhost:8001/tasks/${task.id}`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(updatedTask)
@@ -55,12 +55,12 @@ const TaskBoard = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            let url = 'http://localhost:8000/tasks';
+            let url = 'http://localhost:8001/tasks';
             let method = 'POST';
             let body = currentTask;
 
             if (isEditing) {
-                url = `http://localhost:8000/tasks/${currentTask.id}`;
+                url = `http://localhost:8001/tasks/${currentTask.id}`;
                 method = 'PUT';
             } else {
                 const newId = tasks.length > 0 ? Math.max(...tasks.map(t => t.id)) + 1 : 1;

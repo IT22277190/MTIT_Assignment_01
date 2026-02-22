@@ -5,10 +5,13 @@ from typing import List, Optional
 
 app = FastAPI()
 
-# Add CORS middleware to allow requests from the frontend
+# NOTE: The Gemini backend is manually configured to run on port 8001
+# (instead of the default 8000) to avoid conflicts with the ChatGPT backend
+# running simultaneously on port 8000. The allow_origins were also manually
+# updated to match the correct frontend development server ports.
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # In production, specify the allowed origins (e.g., ["http://localhost:5173"])
+    allow_origins=["http://localhost:5173", "http://localhost:5174"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
